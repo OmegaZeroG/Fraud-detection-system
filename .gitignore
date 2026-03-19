@@ -1,0 +1,22 @@
+# Node
+node_modules/
+dist/
+build/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Env
+.env
+
+# ML artifacts
+ml-service/artifacts/
+
+# Dataset
+dataset/
+
+# OS
+.DS_Store
+Thumbs.db
