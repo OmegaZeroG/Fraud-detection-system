@@ -1,14 +1,16 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
-const port = 8000;
+const   port = process.env.PORT || 5000;
 
+app.use(cors()); 
 app.use(express.json());
 
-app.get("/", (req,res)=>{
-    res.send("Fraud Detection API is Running");
+app.use("/api", require("./routes/predictRoute"));
+app.listen(port, () => {
+    console.log(`Server running on port http://localhost:${port}`);
 });
 
-app.listen(port,()=>{
-    console.log(`Server is Running on port ${port}`)
-})
+
+module.exports = app;
