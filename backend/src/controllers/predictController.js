@@ -1,14 +1,27 @@
+const asyncHandler = require("../utils/AsyncHandler");
+const ApiError = require("../utils/ApiError");
+const ApiResponse = require("../utils/ApiResponse");
+
 const { getPrediction } = require("../services/mlService");
+const Transaction = require("../models/Transaction");
 
-exports.predict = async (req, res) => {
-  try {
-    const { features } = req.body;
+exports.predict = asyncHandler(async (req, res) => {
+  const { features } = req.body;
 
-    const result = await getPrediction(features);
-
-    res.json(result);
-  } catch (error) {
-    console.error("ERROR:", error.message); // 👈 ADD THIS
-    res.status(500).json({ error: "Prediction failed" });
+  if (!features) {
+    throw new ApiError(400, "Features are required");
   }
-};
+
+  // 🔥 Call ML service
+  const result = await getPrediction(features);
+
+  // 🔥 Save to DB
+  const saved = await Transaction.create({
+    amount: features[0],
+    prediction: result.prediction,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, saved, "Prediction successful"));
+});

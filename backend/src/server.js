@@ -1,16 +1,12 @@
-const express = require("express");
-const cors = require("cors");
+require("dotenv").config();
 
-const app = express();
-const   port = process.env.PORT || 5000;
+const app = require("./app");
+const connectDB = require("./config/db");
 
-app.use(cors()); 
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
 
-app.use("/api", require("./routes/predictRoute"));
-app.listen(port, () => {
-    console.log(`Server running on port http://localhost:${port}`);
+connectDB();
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
-
-
-module.exports = app;
