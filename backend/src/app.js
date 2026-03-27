@@ -16,6 +16,10 @@ app.use("/api", require("./routes/predictRoute"));
 
 const ApiError = require("./utils/ApiError");
 
+//auth routes
+app.use("/api/auth", require("./routes/authRoute"));
+
+
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
 
