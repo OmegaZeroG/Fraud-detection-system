@@ -9,6 +9,10 @@ app = FastAPI()
 class Transaction(BaseModel):
     features: List[float]
 
+@app.get("/health")
+def health():
+    return {"status": "ok", "service": "ml-service"}
+
 
 def dummy_model(data):
     if data[-1] > 1000:
