@@ -5,7 +5,7 @@ const asyncHandler = require("../utils/AsyncHandler");
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 
-const User = require("../models/User");
+const User = require("../models/User.models.js");
 
 // 🔥 REGISTER
 exports.register = asyncHandler(async (req, res) => {
