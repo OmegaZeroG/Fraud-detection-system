@@ -12,12 +12,12 @@ const protect = require("../middlewares/authMiddleware")
 router.post("/predict",protect, predict)
 
 // NEW: Get all transactions
-require("dotenv").config();
-
 router.get(
   "/history", protect,
   asyncHandler(async (req, res) => {
-    const data = await Transaction.find().sort({ createdAt: -1 });
+    const data = await Transaction.find({ user: req.user.id }).sort({
+      createdAt: -1,
+    });
 
     return res.json(new ApiResponse(200, data, "History fetched successfully"));
   }),

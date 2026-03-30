@@ -28,7 +28,9 @@ exports.register = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  return res.json(new ApiResponse(201, user, "User registered"));
+  const createdUser = await User.findById(user._id).select("-password");
+
+  return res.json(new ApiResponse(201, createdUser, "User registered"));
 });
 
 // 🔥 LOGIN
@@ -45,9 +47,22 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid credentials");
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" },
+  );
 
-  return res.json(new ApiResponse(200, { token, user }, "Login successful"));
+  const safeUser = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+  };
+
+  return res.json(
+    new ApiResponse(200, { token, user: safeUser }, "Login successful"),
+  );
 });

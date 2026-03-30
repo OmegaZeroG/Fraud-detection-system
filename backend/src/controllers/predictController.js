@@ -19,6 +19,7 @@ exports.predict = asyncHandler(async (req, res) => {
   const saved = await Transaction.create({
     amount: features[0],
     prediction: result.prediction,
+    user: req.user.id, // 🔥 link logged-in user
   });
 
   return res
