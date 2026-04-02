@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { loginAPI } from "../api/services";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,10 +10,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await API.post("/auth/login", {
-        email,
-        password,
-      });
+      const res = await loginAPI({ email, password });
 
       // 🔥 Save token
       localStorage.setItem("token", res.data.data.token);

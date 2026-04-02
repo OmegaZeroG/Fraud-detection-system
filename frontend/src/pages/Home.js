@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import { predictAPI } from "../api/services";
 
 export default function Home() {
   const [amount, setAmount] = useState("");
@@ -14,9 +15,9 @@ export default function Home() {
     }
 
     try {
-      const res = await API.post("/predict", {
-        features: [Number(amount)],
-      });
+      
+
+      const res = await predictAPI(Number(amount));
 
       setResult(res.data.data.prediction);
     } catch (error) {

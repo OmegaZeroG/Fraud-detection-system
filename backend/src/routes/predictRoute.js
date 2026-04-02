@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-
+const { predictValidation } = require("../validators/predict.validator");
+const validate = require("../middlewares/validate");
 const { predict } = require("../controllers/predictController")
 const Transaction = require("../models/Transaction")
 const ApiResponse = require("../utils/ApiResponse")
@@ -9,7 +10,7 @@ const asyncHandler = require("../utils/AsyncHandler")
 const protect = require("../middlewares/authMiddleware")
 
 // POST prediction
-router.post("/predict",protect, predict)
+router.post("/predict", protect, predictValidation, validate, predict);
 
 // NEW: Get all transactions
 router.get(

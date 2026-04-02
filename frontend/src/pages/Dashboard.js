@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { PieChart, Pie, Cell } from "recharts";
+import { getHistoryAPI } from "../api/services";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -9,7 +10,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      const res = await API.get("/history");
+
+      const res = await getHistoryAPI();
       setTransactions(res.data.data);
     };
 
