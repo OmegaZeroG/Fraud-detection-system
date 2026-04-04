@@ -1,37 +1,26 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import List
+from fastapi.middleware.cors import CORSMiddleware
+from app.api.predict import router as predict_router
 
-app = FastAPI()
+app = FastAPI(title="ATO Fraud Detection API", version="1.0.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# ✅ Define proper request schema
-class Transaction(BaseModel):
-    features: List[float]
+app.include_router(predict_router, prefix="/api")
+
+@app.get("/")
+def root():
+    return {"status": "ATO Fraud Detection API is running 🚀"}
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "ml-service"}
-
-
-def dummy_model(data):
-    if data[-1] > 1000:
-        return 1
-    return 0
-
-
-@app.get("/")
-def home():
-    return {"message": "Fraud Detection API Running"}
-
-
-@app.post("/predict")
-def predict(transaction: Transaction):
-    
-    features = transaction.features
-
-    prediction = dummy_model(features)
-
-    return {
-        "prediction": int(prediction)
-    }
+    return {"status": "healthy", "model": "LightGBM + IsolationForest"}
