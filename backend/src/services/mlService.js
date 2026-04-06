@@ -1,7 +1,7 @@
 const axios = require("axios");
 const ApiError = require("../utils/ApiError");
 
-const ML_API_URL = "http://127.0.0.1:8000/predict";
+const ML_API_URL = "http://127.0.0.1:8000/api/predict";
 
 const getPrediction = async (features) => {
   try {

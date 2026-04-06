@@ -2,7 +2,7 @@ const asyncHandler = require("../utils/AsyncHandler");
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 const bcrypt = require("bcryptjs");
-const User = require("../models/User.model");
+const User = require("../models/User.models");
 
 // ✅ GET PROFILE
 exports.getProfile = asyncHandler(async (req, res) => {
